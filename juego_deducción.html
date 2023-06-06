@@ -60,6 +60,89 @@ h1{
     bolita(this.bolas[i], this.x+this.margen*i,this.y,this.r);
     }
   }
+  function bolita(color,x,y,r){
+    ctx.save();
+    ctx.beginPath();
+    if(color==1){
+      ctx.fillStyle = "gray";
+    } else {
+      ctx.fillStyle= colores_array[color];
+    }
+    ctx.arc(x,y,r,0,2*Math.PI);
+    ctx.fill();
+    ctx.restore();
+  }
+  /*****
+  Funciones
+  *****/
+ function dibujaBolitas(){
+  ctx.fillStyle = colorBoton;
+  ctx.strokeStyle = colorContorno;
+ctx.font = "bold 20px Arial";    ctx.fillText("Prueba",this.x, this.y);
+ }
+ window.onload = function(){
+  canvas = document.getElementById("miCanvas");
+  if(canvas && canvas.getContext){
+    ctx = canvas.getContext("2d");
+    if(ctx){
+      jugadaa = new Bolitas(99,
+      Math.floor(Math.random()*numColores),
+       Math.floor(Math.random()*numColores),
+       Math.floor(Math.random()*numColores),
+       Math.floor(Math.random()*numColores),
+      Math.floor(Math.random()*numColores));
+      tirada.dibuja();
+      boton = new Boton (t);
+      boton.dibuja();
+      canvas.addEventListener("click",selecciona,false);
+    }else {
+      alert("Error al crear tu contexto");
+  }
+  }
+ }
+ function ajusta(xx,yy){
+  var pos = canvas.getBoundingClientRect();
+  var x = xx - pos.left;
+  var y = yy - pos.top;
+  return {x:x,y:y};
+ }
+ function selecciona(e){
+  var pos = ajusta(e.clientX,e.clientY);
+  var x = pos.x;     var y = pos.y;
+
+  //
+  if((x>tirada.xx)&&(x<tirada.lon)&&
+    (y>tirada.yy)&&(y<tirada.yy+tirada.w)){
+      for(var i=0; i<numColores;i++){
+        xx = tirada.xx+tirada.margen*i;
+        if((x > xx)&&(x < xx+tirada.w)){
+          break;
+        }
+      }
+      if(i<numColores){
+        color = tirada.bolas[i]+1;
+        if(color==numColores)color = -1;
+        bolita(color,tirada.x+tirada.margen*i,
+        tirada.y,tirada.r);
+        tirada.bolas[i]= color;
+      }
+    }else if ((x>boton.x)&&(x<boton.x+boton.l)&&
+          (y>boton.y-boton.w/2)&&(y<boton.y+boton.w/2)){
+            revisa();
+
+    }
+ }
+ function revisa();
+ var correctas, colores;
+ for(var i=0; i<numColores; i++){
+  console.log(i+": "+tirada.bolas[i]+","+jugada.bolas[i]);
+  if (tirada.bolas[i]==jugasa.bolas[i])correctas++;
+ }
+ var tiradaLimpio = limpiaArreglo(tirada.bolas);
+ var jugadaLimpio = limpiaArreglo(jugada.bolas[i]);
+ for (var i=0; i<tiradaLimpio.length;i++){
+  
+ }
 
 </script>
         
